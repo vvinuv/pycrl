@@ -44,7 +44,7 @@ class ArnaudProfile:
     Store parameters of Arnaud pressure profile
     '''
     def __init__(self, z, m500, xin=8e-3, xout=6.0, om0=0.277, h0=0.702, 
-                 xspace=1000, losspace=1000, filename='py_x_pgas_tsz.txt',
+                 xspace=1000, losspace=1000, filename=None, #'py_x_pgas_tsz.txt',
                  doprint=False):
         self.z = z
         self.m500 = m500
@@ -90,7 +90,8 @@ class ArnaudProfile:
         self.pgas2d = np.array([1.65*(self.h0/0.7)**2.0*self.Ez**(8.0/3.0)*(self.m500/3e14/0.7)**(2.0/3.0+0.12) * integrate_pressure(los_array, x) * (self.r500/self.h0)/0.5176 for x in self.y])
 
         self.Tsz=-2.0*283.0*(self.pgas2d/50.0) # uK
-        np.savetxt(self.filename, np.transpose([self.y,self.pgas3d,self.Tsz]), fmt='%.5f %5e %.5e', header='(r/r500) or (theta/theta500) pressure_3d tsz')
+        if self.filename is not None:
+            np.savetxt(self.filename, np.transpose([self.y, self.y*self.r500, self.y*self.theta500, self.pgas3d, self.pgas2d, self.Tsz]), fmt='%.5f %.5f %.5f %.5e %.5e %.5e', header='(r/r500) or (theta/theta500) r(h^-1 Mpc) theta(radian) pressure_3d(eV/cm^3) pressure_2d(eV/cm^2) tsz(micro K)')
 
 if __name__=='__main__':
     # pressure profile is cut at r=xout*r500
