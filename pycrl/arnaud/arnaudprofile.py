@@ -1,5 +1,5 @@
 import numpy as np
-import CosmologyFunctions as cf
+from pycrl.CosmologyFunctions import CosmologyFunctions
 from numba import jit
 
 
@@ -66,7 +66,7 @@ class ArnaudProfile:
         xin, xout : r/r500 
         om0, h0 : Cosmology parameters
         '''
-        cosmo = cf.CosmologyFunctions(self.z)
+        cosmo = CosmologyFunctions(self.z)
         self.rhoc = cosmo.rho_crit() # critical density in units of h^2 Msun Mpc^-3
         self.da = cosmo.angular_diameter_distance() # proper distance, h^-1 Mpc
         self.r500 = (3.0*self.m500/4.0/3.14159/500./self.rhoc)**(1.0/3.0) # h^-1 Mpc
