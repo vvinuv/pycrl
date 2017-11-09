@@ -1,0 +1,2 @@
+rm -rf build dist pycrl.egg-info
+python setup.py install
